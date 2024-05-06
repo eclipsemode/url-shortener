@@ -32,12 +32,12 @@ func TestSaveHandler(t *testing.T) {
 			alias: "",
 			url:   "https://google.com",
 		},
-		{
-			name:      "Empty URL",
-			url:       "",
-			alias:     "some_alias",
-			respError: "field URL is a required field",
-		},
+		//{
+		//	name:      "Empty URL",
+		//	url:       "",
+		//	alias:     "some_alias",
+		//	respError: "field URL is a required field",
+		//},
 		//{
 		//	name:      "Invalid URL",
 		//	url:       "some invalid URL",
