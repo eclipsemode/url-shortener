@@ -16,7 +16,7 @@ import (
 //
 //go:generate go run github.com/vektra/mockery/v2@v2.42.3 --name=URLGetter
 type URLGetter interface {
-	GetURL(alias string) (string, error)
+	GetUrl(alias string) (string, error)
 }
 
 func New(log *slog.Logger, urlGetter URLGetter) http.HandlerFunc {
@@ -37,7 +37,7 @@ func New(log *slog.Logger, urlGetter URLGetter) http.HandlerFunc {
 			return
 		}
 
-		resURL, err := urlGetter.GetURL(alias)
+		resURL, err := urlGetter.GetUrl(alias)
 		if errors.Is(err, storage.ErrNotFound) {
 			log.Info("url not found", "alias", alias)
 

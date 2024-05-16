@@ -18,7 +18,7 @@ func TestSaveHandler(t *testing.T) {
 		alias     string
 		url       string
 		respError string
-		mockError string
+		mockError error
 	}{
 		{
 			name:  "Success",
@@ -32,7 +32,7 @@ func TestSaveHandler(t *testing.T) {
 			urlGetterMock := mocks.NewURLGetter(t)
 
 			if tc.respError == "" || tc.mockError != nil {
-				urlGetterMock.On("GetURL", tc.alias).
+				urlGetterMock.On("GetUrl", tc.alias).
 					Return(tc.url, tc.mockError).Once()
 			}
 
