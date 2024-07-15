@@ -4,6 +4,7 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -22,7 +23,10 @@ type HTTPServer struct {
 }
 
 func MustLoad() *Config {
-	configPath := "./config/local.yaml"
+	configPath, err := filepath.Abs("../../config/local.yaml")
+	if err != nil {
+		log.Fatal("Can't find absolute config path")
+	}
 
 	// check if file exists
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
