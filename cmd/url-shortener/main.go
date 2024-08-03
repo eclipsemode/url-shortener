@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/go-chi/chi/v5"
@@ -8,6 +9,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	ssogrpc "url-shortener/internal/clients/sso/grpc"
 	"url-shortener/internal/config"
 	"url-shortener/internal/http-server/handlers/redirect"
 	"url-shortener/internal/http-server/handlers/url/delete"
@@ -41,6 +43,22 @@ func main() {
 		slog.String("version", "0.0.1"),
 	)
 	log.Debug("debug logging enabled")
+
+	ssoClient, err := ssogrpc.New(
+		log,
+		cfg.Clients.SSO.Address,
+		cfg.Clients.SSO.Timeout,
+		cfg.Clients.SSO.RetriesCount,
+	)
+	if err != nil {
+		log.Error("failed to create SSO client", sl.Err(err))
+		os.Exit(1)
+	}
+
+	_, err = ssoClient.IsAdmin(context.Background(), 1)
+	if err != nil {
+		log.Error("failed to check admin status", sl.Err(err))
+	}
 
 	// TODO: init storage: sqlite
 
